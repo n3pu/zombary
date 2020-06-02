@@ -13,16 +13,29 @@
 <body>
   <form action="" id="chat">
     <input type="text" name="username" placeholder="Digite seu usuário">
-    <div class="messages"></div>
+    <div id="messages" class="messages"></div>
     <input type="text" name="message" placeholder="Digite sua mensagem">
     <button type="submit">Enviar</button>
   </form>
 
   <script type="text/javascript">
+    $(document).ready(function() {
+      var container = document.getElementById("messages");
+      setTimeout(function(){
+        $('#messages').animate({ scrollTop: container.scrollHeight}, 1000);
+      },1000);    
+    });
     var socket = io('http://localhost:3000');
 
     function renderMessage(message) {
-      $('.messages').append('<div class="message"><strong>'+ message.author +'</strong>: '+ message.message +'</div>');
+      var currentAuthor = message.id;
+      var userColorClass = "other";
+      if( currentAuthor === socket.id ) {
+        userColorClass = "self";
+      }
+      $('.messages').append('<div class="message '+ userColorClass +'"><div class="user-message"><div class="author">'
+        + message.author +'</div><div class="content-message">'
+        + message.message +'</div></div></div>');
     }
 
     socket.on('previousMessages', function(messages) {
@@ -33,6 +46,8 @@
 
     socket.on('receiveMessage', function(message) {
       renderMessage(message);
+      var container = document.getElementById("messages");    
+      $('#messages').animate({ scrollTop: container.scrollHeight}, 1000);
     });
 
     $('#chat').submit(function(event){
@@ -45,13 +60,17 @@
         var messageObject = {
           author: author,
           message: message,
+          id: socket.id
         };
 
         renderMessage(messageObject);
 
         socket.emit('sendMessage', messageObject);
       }
+      var container = document.getElementById("messages");    
+      $('#messages').animate({ scrollTop: container.scrollHeight}, 1000);
     });
+    
   </script>
 </body>
 </html>

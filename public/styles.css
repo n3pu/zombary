@@ -1,5 +1,10 @@
-html, body {
-  height: 100%;
+body {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #18141a;
 }
 
 * {
@@ -10,6 +15,9 @@ html, body {
 
 #chat {
   height: 100%;
+  width: 100%;
+  max-width: 600px;
+  padding: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,29 +25,103 @@ html, body {
 }
 
 input {
-  width: 600px;
-  border: 1px solid #ddd;
-  height: 50px;
-  padding: 0 20px;
+  width: 100%;
+  padding: 16px 24px;
   font-size: 14px;
+  border-radius: 8px;
+  background-color: #28212c;
+  border: none;
+  color: #FFF;
 }
 
 button {
-  width: 600px;
-  height: 50px;
+  width: 100%;
+  padding: 16px 24px;
   font-size: 14px;
-  background: #069;
+  background: #50395c;
   text-align: center;
-  line-height: 50px;
   font-weight: bold;
   color: #FFF;
-  margin-top: 10px;
+  margin-top: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
 }
 
 .messages {
-  width: 600px;
-  height: 400px;
+  width: 100%;
+  min-height: 400px;
   margin: 20px 0;
-  border: 1px solid #ddd;
   padding: 20px;
+  background-color: #28212c;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.message {
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+}
+
+.message .author {
+  color: #fff4;
+  width: fit-content;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.content-message {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  display: inline;
+}
+
+.user-message {
+  font-size: 16px;
+  color: #fff;
+  background-color: #392f3f;
+  padding: 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  max-width: 336px;
+  position: relative;
+}
+
+.other {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.other .user-message {
+  background-color: #443c49;
+}
+
+.self {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.self .user-message{
+  background-color: #552d6a;
+}
+
+
+/* Scrollbar width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Scrollbar Track */
+::-webkit-scrollbar-track {
+  background: #392f3f; 
+}
+ 
+/* Scrollbar Handle */
+::-webkit-scrollbar-thumb {
+  background: #473b4e; 
+}
+
+/* Scrollbar Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
