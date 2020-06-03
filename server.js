@@ -59,13 +59,18 @@ io.on('connection', socket => {
   //listen on new_message
   socket.on('new_message', (data) => {
     //broadcast the new message
-    io.sockets.emit('new_message', {message : data.message, username : socket.username, color: socket.color});
+    console.log("Message of " + socket.username);
+    io.sockets.emit('new_message', {id: socket.id, message : data.message, username : socket.username, color: socket.color});
   });
 
 
   //listen on typing
   socket.on('typing', data => {
-    socket.broadcast.emit('typing',{username: socket.username, color: socket.color})
+    if (data.typing==true) {
+      socket.broadcast.emit('typing', {username: socket.username, color: socket.color, typing: data.typing})
+    } else {
+      socket.broadcast.emit('typing', {username: '', color: socket.color, typing: data.typing})
+    }
   });
 
   //Disconnect

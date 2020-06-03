@@ -37,8 +37,8 @@ $(function () {
   // Or if the enter key is pressed
   message.keypress( e => {
     let keycode = (e.keyCode ? e.keyCode : e.which);
-    if(keycode == '13'){
-      socket.emit('new_message', {message : message.val()})
+    if(keycode == '13' && message.val().length != 0){
+      socket.emit('new_message', {message : message.val()});
     }
   })
 
@@ -46,10 +46,15 @@ $(function () {
   socket.on("new_message", (data) => {
     feedback.html('');
     message.val('');
+    //align and color chat balloon
+    var userColorClass = "other";
+    if( nickName.val() === data.username ) {
+      userColorClass = "self";
+    }
     //append the new message on the chatroom
     chatroom.append(`
     
-    <div class="">
+    <div class="${userColorClass}">
       <div class="user-message">
         <div style='color:${data.color}' class="author">${data.username}</div>
         <div class="content-message">${data.message}</div>
@@ -59,17 +64,6 @@ $(function () {
     `)
     keepTheChatRoomToTheBottom()
   });
-
-  // function renderMessage(message) {
-  //   var currentAuthor = message.id;
-  //   var userColorClass = "other";
-  //   if( currentAuthor === socket.id ) {
-  //     userColorClass = "self";
-  //   }
-  //   $('.messages').append('<div class="message '+ userColorClass +'"><div class="user-message"><div class="author">'
-  //     + message.author +'</div><div class="content-message">'
-  //     + message.message +'</div></div></div>');
-  // }
 
   //Emit a username
   nickName.keypress( e => {
@@ -82,7 +76,7 @@ $(function () {
       socket.on('get users', data => {
         let html = '';
         for(let i=0;i<data.length;i++){
-          html += `<li class="list-item" style="color: ${data[i].color}">${data[i].username}</li>`;
+          html += `<li class="list-item" style="color: ${data[i].color}" ${data[i].id}>${data[i].username}</li>`;
         }
         usersList.html(html)
       })
@@ -90,16 +84,29 @@ $(function () {
   });
 
   //Emit typing
+  var typingTimer;
+  var doneTypingInterval = 2000;
   message.on("keypress", e => {
     let keycode = (e.keyCode ? e.keyCode : e.which);
-    if(keycode != '13'){
-      socket.emit('typing')
-    }
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    if (keycode != '13'){
+      socket.emit('typing', {typing: true})
+    } 
   });
+
+  // clear typing after interval
+  function doneTyping() {
+    socket.emit('typing', {typing : false});
+  }
 
   //Listen on typing
   socket.on('typing', (data) => {
-    feedback.html("<i><span style='color:"+ data.color +"'>" + data.username + "</span> está digitando uma mensagem..." + "</i>")
+    if (data.typing==true) {
+      feedback.html("<i><span style='color:"+ data.color +"'>" + data.username + "</span> está digitando uma mensagem..." + "</i>")
+    } else {
+      feedback.html('')
+    }
   });
 
   socket.on('previousMessages', function(messages) {
@@ -113,24 +120,6 @@ $(function () {
     var container = document.getElementById("messages");    
     $('#messages').animate({ scrollTop: container.scrollHeight}, 1000);
   });
-
-  // $('#chat').submit(function(event){
-  //   event.preventDefault();
-
-  //   if (nickName.length && message.length) {
-  //     var messageObject = {
-  //       nickName: nickName,
-  //       message: message,
-  //       id: socket.id
-  //     };
-
-  //     renderMessage(messageObject);
-
-  //     socket.emit('sendMessage', messageObject);
-  //   }
-  //   var container = document.getElementById("messages");    
-  //   $('#messages').animate({ scrollTop: container.scrollHeight}, 1000);
-  // });
 
 });
 

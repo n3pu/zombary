@@ -138,18 +138,6 @@ button {
   width: 100px;
 }
 
-.message {
-  font-family: Arial, Helvetica, sans-serif;
-  width: 100%;
-}
-
-.message .author {
-  color: #fff4;
-  width: fit-content;
-  font-size: 14px;
-  margin-bottom: 4px;
-}
-
 .content-message {
   word-wrap: break-word;
   white-space: pre-wrap;
@@ -165,6 +153,13 @@ button {
   margin-bottom: 8px;
   max-width: 336px;
   position: relative;
+}
+
+.author {
+  color: #fff4;
+  width: fit-content;
+  font-size: 12px;
+  margin-bottom: 4px;
 }
 
 .other {
