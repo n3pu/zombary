@@ -24,7 +24,7 @@ $(function () {
   let send_message = $("#send_message");
   let message = $("#message");
   let feedback = $("#feedback");
-  let usersList = $("#users-list");
+  let usersList = $("#users_list");
   let chatroom = $("#chatroom");
   let currentUser = $("#current_user");
 
@@ -127,4 +127,9 @@ $(function () {
 const keepTheChatRoomToTheBottom = () => {
   const chatroom = document.getElementById('chatroom');
   chatroom.scrollTop = chatroom.scrollHeight - chatroom.clientHeight;
+}
+
+
+function openUsers() {
+  document.getElementById("users_list").classList.toggle('show')
 }
