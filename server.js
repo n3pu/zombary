@@ -65,7 +65,7 @@ io.on('connection', socket => {
 
   //listen on typing
   socket.on('typing', data => {
-    socket.broadcast.emit('typing',{username: socket.username})
+    socket.broadcast.emit('typing',{username: socket.username, color: socket.color})
   });
 
   //Disconnect
@@ -84,7 +84,7 @@ io.on('connection', socket => {
     users = users.filter( x => x !== user);
     //Update the users list
     updateUsernames();
-    connnections.splice(connnections.indexOf(socket),1);
+    connections.splice(connections.indexOf(socket),1);
   });
 
 });

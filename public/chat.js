@@ -18,7 +18,7 @@ nicknameInput.onkeypress = e => {
 };
 
 $(function () {
-  var socket = io('http://localhost:3000');
+  var socket = io.connect();
 
   let nickName = $("#username");
   let send_message = $("#send_message");
@@ -99,7 +99,7 @@ $(function () {
 
   //Listen on typing
   socket.on('typing', (data) => {
-    feedback.html("<p><i>" + data.username + " is typing a message..." + "</i></p>")
+    feedback.html("<i><span style='color:"+ data.color +"'>" + data.username + "</span> está digitando uma mensagem..." + "</i>")
   });
 
   socket.on('previousMessages', function(messages) {

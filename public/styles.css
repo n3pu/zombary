@@ -51,6 +51,7 @@ body {
   height: 100vh;
   width: 100vw;
   background: #000;
+  z-index: 5;
 }
 
 .modal-body {
@@ -74,6 +75,8 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  position: relative;
+  z-index: 0;
 }
 
 input {
@@ -112,6 +115,15 @@ button {
   background-color: #28212c;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.feedback {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  padding: 8px;
+  color: #fff5;
+  font-size: 12px;
 }
 
 .chat-message {
