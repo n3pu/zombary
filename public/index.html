@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zombary Chat</title>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 
   <link rel="stylesheet" href="styles.css">
@@ -13,66 +12,30 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
-  <form action="" id="chat">
-    <input type="text" name="username" placeholder="Digite seu usuário">
-    <div id="messages" class="messages"></div>
-    <input type="text" name="message" placeholder="Digite sua mensagem">
-    <button type="submit">Enviar</button>
-  </form>
+  <div class="users-list">
+    <div id="current_user" class="user">
+    </div>
+    <ul class="other-users" id="users-list"></ul>
+  </div>
+  <div id="username-modal" class="modal">
+    <div class="modal-body">
+      <h1 class="modal-title">Qual seu nome?</h1>
+      <input type="text" id="username" name="username" autofocus placeholder="Digite seu usuário">
+    </div>
+  </div>
+  <div id="chat" class="chat">
+    <div id="chatroom" class="chatroom">
+      <div id="feedback"></div>
+    </div>
+    <div class="chat-message">
+      <input type="text" id="message" class="input-message" name="message" placeholder="Digite sua mensagem">
+      <button id="send_message">Enviar</button>
+    </div>
+  </div>
 
-  <script type="text/javascript">
-    $(document).ready(function() {
-      var container = document.getElementById("messages");
-      setTimeout(function(){
-        $('#messages').animate({ scrollTop: container.scrollHeight}, 1000);
-      },1000);    
-    });
-    var socket = io('http://localhost:3000');
+  <!--jQuery script-->
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
-    function renderMessage(message) {
-      var currentAuthor = message.id;
-      var userColorClass = "other";
-      if( currentAuthor === socket.id ) {
-        userColorClass = "self";
-      }
-      $('.messages').append('<div class="message '+ userColorClass +'"><div class="user-message"><div class="author">'
-        + message.author +'</div><div class="content-message">'
-        + message.message +'</div></div></div>');
-    }
-
-    socket.on('previousMessages', function(messages) {
-      for (message of messages) {
-        renderMessage(message);
-      }
-    });
-
-    socket.on('receiveMessage', function(message) {
-      renderMessage(message);
-      var container = document.getElementById("messages");    
-      $('#messages').animate({ scrollTop: container.scrollHeight}, 1000);
-    });
-
-    $('#chat').submit(function(event){
-      event.preventDefault();
-
-      var author = $('input[name=username]').val();
-      var message = $('input[name=message]').val();
-
-      if (author.length && message.length) {
-        var messageObject = {
-          author: author,
-          message: message,
-          id: socket.id
-        };
-
-        renderMessage(messageObject);
-
-        socket.emit('sendMessage', messageObject);
-      }
-      var container = document.getElementById("messages");    
-      $('#messages').animate({ scrollTop: container.scrollHeight}, 1000);
-    });
-    
-  </script>
+  <script src="./chat.js"></script>
 </body>
 </html>
