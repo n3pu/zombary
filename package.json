@@ -15,5 +15,15 @@
     "randomcolor": "^0.5.4",
     "socket.io": "^2.3.0",
     "uuid": "^8.1.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.7",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-mode": "^1.0.2",
+    "gulp-sass": "^4.1.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-watch": "^5.0.1",
+    "node-sass": "^4.14.1"
   }
 }
